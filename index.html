@@ -3,986 +3,1969 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Séquence pédagogique sur l'IA et ses biais - Niveau 3ème">
-    <meta name="author" content="Fiche Enseignant">
-    <title>Séquence IA et ses biais - 3ème</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <title>Fiche Enseignant – IA et ses biais</title>
     <style>
+        /* ============ RESET & BASE ============ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --bleu-principal: #2563eb;
-            --vert: #16a34a;
-            --orange: #ea580c;
-            --violet: #7c3aed;
-            --fond-clair: #f8fafc;
-            --gris-clair: #e2e8f0;
-            --texte: #1e293b;
+            --bleu: #2563EB;
+            --bleu-clair: #DBEAFE;
+            --vert: #16A34A;
+            --vert-clair: #DCFCE7;
+            --orange: #EA580C;
+            --orange-clair: #FED7AA;
+            --violet: #7C3AED;
+            --violet-clair: #EDE9FE;
+            --jaune-clair: #FEF9C3;
+            --fond: #F8FAFC;
+            --texte: #1E293B;
+            --gris: #64748B;
+            --bordure: #E2E8F0;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--fond);
             color: var(--texte);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            min-height: 100vh;
+            font-size: 14px;
+            line-height: 1.6;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        /* ============ NAVIGATION ============ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: white;
+            border-bottom: 2px solid var(--bordure);
+            padding: 0 40px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--bleu);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gris);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--bleu-clair);
+            color: var(--bleu);
+        }
+
+        .nav-print {
+            background: var(--bleu);
+            color: white !important;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nav-print:hover {
+            background: #1D4ED8;
+            transform: translateY(-1px);
+        }
+
+        /* ============ LAYOUT ============ */
+        main {
+            max-width: 1100px;
+            margin: 80px auto 60px;
+            padding: 0 20px;
+        }
+
+        section {
             background: white;
             border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
         }
-        
-        .cover {
-            text-align: center;
-            padding: 80px 40px;
-            background: linear-gradient(135deg, var(--bleu-principal) 0%, #3b82f6 100%);
+
+        /* ============ EN-TÊTES ============ */
+        .section-header {
+            padding: 30px 40px;
             color: white;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
-        
-        .cover::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
-            animation: float 20s linear infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-100px); }
-        }
-        
-        .cover h1 {
-            font-size: 3em;
-            margin-bottom: 15px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cover h2 {
-            font-size: 2em;
-            font-weight: 300;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cover .meta {
-            font-size: 1.2em;
-            margin-top: 20px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cover .meta p {
-            margin: 10px 0;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
+
+        .section-header .icon-big { font-size: 48px; line-height: 1; }
+        .section-header h2 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .section-header p { font-size: 14px; opacity: 0.9; }
+
+        .header-cover  { background: linear-gradient(135deg, #2563EB, #1E40AF); }
+        .header-3c     { background: linear-gradient(135deg, #7C3AED, #5B21B6); }
+        .header-s1     { background: linear-gradient(135deg, #2563EB, #1D4ED8); }
+        .header-s2     { background: linear-gradient(135deg, #EA580C, #C2410C); }
+        .header-s3     { background: linear-gradient(135deg, #16A34A, #15803D); }
+        .header-qcm    { background: linear-gradient(135deg, #0F172A, #1E293B); }
+
+        .section-body { padding: 35px 40px; }
+
+        /* ============ CARDS INFOS ============ */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .info-box {
-            background: var(--fond-clair);
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid var(--bleu-principal);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .info-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .info-box h3 {
-            color: var(--bleu-principal);
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .info-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .info-box ul li {
-            padding: 8px 0;
-            padding-left: 30px;
-            position: relative;
-        }
-        
-        .info-box ul li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--vert);
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin: 60px 0 40px 0;
-            font-size: 2.5em;
-            color: var(--texte);
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--bleu-principal), var(--violet));
-            border-radius: 2px;
-        }
-        
-        .method-3c {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
-        }
-        
-        .method-card {
-            padding: 30px;
-            border-radius: 15px;
-            border: 3px solid;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .method-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .method-card:hover::before {
-            opacity: 1;
-        }
-        
-        .method-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-        
-        .method-card.clair {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            border-color: var(--bleu-principal);
-        }
-        
-        .method-card.clair::before {
-            background: var(--bleu-principal);
-        }
-        
-        .method-card.contextualise {
-            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-            border-color: var(--vert);
-        }
-        
-        .method-card.contextualise::before {
-            background: var(--vert);
-        }
-        
-        .method-card.neutre {
-            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
-            border-color: var(--violet);
-        }
-        
-        .method-card.neutre::before {
-            background: var(--violet);
-        }
-        
-        .method-card h3 {
-            font-size: 1.6em;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .method-card .icon {
-            font-size: 1.5em;
-        }
-        
-        .method-card.clair h3 { color: var(--bleu-principal); }
-        .method-card.contextualise h3 { color: var(--vert); }
-        .method-card.neutre h3 { color: var(--violet); }
-        
-        .method-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-        
-        .method-card ul li {
-            padding: 8px 0;
-            font-size: 0.95em;
-        }
-        
-        .example {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .example strong {
-            display: block;
-            margin-bottom: 10px;
-            color: var(--texte);
-        }
-        
-        .seance {
-            margin: 60px 0;
-            break-inside: avoid;
-        }
-        
-        .seance-header {
-            padding: 25px 30px;
-            border-radius: 15px;
-            color: white;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
-        
-        .seance-header.seance1 { 
-            background: linear-gradient(135deg, var(--bleu-principal) 0%, #3b82f6 100%);
+
+        .info-card {
+            background: var(--fond);
+            border-radius: 14px;
+            padding: 20px;
+            border-left: 4px solid var(--bleu);
         }
-        .seance-header.seance2 { 
-            background: linear-gradient(135deg, var(--orange) 0%, #f97316 100%);
-        }
-        .seance-header.seance3 { 
-            background: linear-gradient(135deg, var(--vert) 0%, #22c55e 100%);
-        }
-        
-        .seance-header h2 {
-            font-size: 2em;
+
+        .info-card h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--bleu);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 10px;
         }
-        
-        .seance-header p {
-            margin-top: 5px;
-            opacity: 0.95;
-            font-size: 1.1em;
+
+        .info-card ul { list-style: none; }
+
+        .info-card ul li {
+            padding: 4px 0 4px 18px;
+            position: relative;
+            font-size: 13px;
         }
-        
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+        .info-card ul li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--bleu);
+            font-size: 11px;
         }
-        
-        table {
+
+        /* ============ SUB-TITLE ============ */
+        .sub-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gris);
+            margin: 28px 0 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--bordure);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ============ TABLEAUX GÉNÉRAUX ============ */
+        .seance-table-wrapper {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--bordure);
+        }
+
+        .overview-table,
+        .seance-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            font-size: 12.5px;
         }
-        
-        table th {
-            background: var(--texte);
-            color: white;
-            padding: 15px 12px;
+
+        .overview-table thead tr { background: var(--bleu); color: white; }
+        .seance-table.s1 thead tr { background: var(--bleu); color: white; }
+        .seance-table.s2 thead tr { background: var(--orange); color: white; }
+        .seance-table.s3 thead tr { background: var(--vert); color: white; }
+
+        .overview-table thead th,
+        .seance-table thead th {
+            padding: 14px 16px;
             text-align: left;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-        
-        table td {
-            padding: 18px 12px;
-            border-bottom: 1px solid var(--gris-clair);
-            vertical-align: top;
-            font-size: 0.9em;
-        }
-        
-        table tr:nth-child(even) {
-            background: var(--fond-clair);
-        }
-        
-        table tr:hover {
-            background: #f1f5f9;
-            transition: background 0.2s ease;
-        }
-        
-        .activite-name {
-            font-weight: 600;
-            color: var(--texte);
-            display: block;
-            margin-bottom: 5px;
-        }
-        
-        .duree {
-            color: var(--bleu-principal);
             font-weight: 700;
-            font-size: 1.1em;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        
-        .vigilance {
-            background: #fef3c7;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #f59e0b;
-            font-size: 0.9em;
+
+        .overview-table tbody tr:nth-child(odd),
+        .seance-table tbody tr:nth-child(odd)  { background: white; }
+
+        .overview-table tbody tr:nth-child(even),
+        .seance-table tbody tr:nth-child(even) { background: var(--fond); }
+
+        .overview-table tbody td,
+        .seance-table tbody td {
+            padding: 14px 16px;
+            vertical-align: top;
+            border-bottom: 1px solid var(--bordure);
+            line-height: 1.6;
         }
-        
-        .vigilance strong {
-            color: #92400e;
-            display: block;
-            margin-bottom: 8px;
+
+        .seance-table tbody td:first-child { font-weight: 700; font-size: 13px; white-space: nowrap; }
+        .seance-table tbody td:nth-child(2) { text-align: center; font-weight: 700; white-space: nowrap; color: var(--gris); }
+
+        .cell-vigilance { background: #FFF7ED !important; }
+        .cell-segpa     { background: var(--jaune-clair) !important; }
+
+        /* ============ BADGES ============ */
+        .badge-seance {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
         }
-        
-        .segpa {
-            background: #fed7aa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--orange);
-            font-size: 0.9em;
+
+        .badge-s1 { background: var(--bleu-clair); color: var(--bleu); }
+        .badge-s2 { background: var(--orange-clair); color: var(--orange); }
+        .badge-s3 { background: var(--vert-clair); color: var(--vert); }
+
+        /* ============ 3C ============ */
+        .trois-c-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 10px;
         }
-        
-        .segpa strong {
-            color: #7c2d12;
-            display: block;
-            margin-bottom: 8px;
+
+        .c-card {
+            border-radius: 16px;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .alert {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border: 3px solid #ef4444;
-            padding: 30px;
-            border-radius: 15px;
-            margin: 40px 0;
+
+        .c-card.clair         { background: var(--bleu-clair);   border-top: 5px solid var(--bleu); }
+        .c-card.contextualise { background: var(--vert-clair);   border-top: 5px solid var(--vert); }
+        .c-card.correct       { background: var(--violet-clair); border-top: 5px solid var(--violet); }
+
+        .c-card .c-icon { font-size: 40px; margin-bottom: 12px; text-align: center; }
+        .c-card h3 { font-size: 17px; font-weight: 800; text-align: center; margin-bottom: 14px; }
+
+        .c-card ul { list-style: none; flex: 1; margin-bottom: 16px; }
+
+        .c-card ul li {
+            padding: 5px 0 5px 20px;
+            position: relative;
+            font-size: 13px;
         }
-        
-        .alert h3 {
-            color: #dc2626;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+
+        .c-card ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+
+        .clair ul li::before        { color: var(--bleu); }
+        .contextualise ul li::before { color: var(--vert); }
+        .correct ul li::before       { color: var(--violet); }
+
+        .exemple-box {
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 12px;
+            margin-top: auto;
+        }
+
+        .clair .exemple-box        { background: #BFDBFE; }
+        .contextualise .exemple-box { background: #BBF7D0; }
+        .correct .exemple-box      { background: #DDD6FE; }
+
+        .exemple-box .ex-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            color: var(--gris);
+        }
+
+        .ex-bad  { color: #DC2626; margin-bottom: 4px; display: block; }
+        .ex-good { color: #15803D; display: block; }
+
+        .astuce-box {
+            background: linear-gradient(135deg, #FEF9C3, #FDE68A);
+            border-radius: 14px;
+            padding: 18px 24px;
+            margin-top: 24px;
+            text-align: center;
+            font-weight: 700;
+            color: #92400E;
+            font-size: 14px;
+            border: 2px solid #FCD34D;
+        }
+
+        /* ============ OBJECTIF BANNER ============ */
+        .objectif-banner {
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 5px solid;
+        }
+
+        .objectif-banner.s1 { background: var(--bleu-clair);   border-color: var(--bleu);   color: #1E40AF; }
+        .objectif-banner.s2 { background: var(--orange-clair); border-color: var(--orange); color: #9A3412; }
+        .objectif-banner.s3 { background: var(--vert-clair);   border-color: var(--vert);   color: #14532D; }
+        .objectif-banner.qcm { background: #F1F5F9;            border-color: #0F172A;        color: #0F172A; }
+
+        /* ============ DÉFINITIONS ============ */
+        .def-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .def-card { border-radius: 14px; padding: 20px; text-align: center; }
+        .def-card.ia     { background: var(--bleu-clair); }
+        .def-card.prompt { background: var(--vert-clair); }
+        .def-card.biais  { background: #FEE2E2; }
+        .def-card .def-icon { font-size: 32px; margin-bottom: 10px; }
+        .def-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+        .def-card p  { font-size: 12px; color: #475569; line-height: 1.5; }
+
+        /* ============ VIGILANCE ============ */
+        .vigilance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .vigilance-item {
+            border-radius: 10px;
+            padding: 14px 18px;
+            font-size: 13px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
-        .alert ul {
-            list-style: none;
-            padding-left: 0;
+
+        .vigilance-item.danger { background: #FFF1F2; border-left: 4px solid #F43F5E; color: #881337; }
+        .vigilance-item.ok     { background: #F0FDF4; border-left: 4px solid var(--vert); color: #14532D; }
+
+        /* ============ TRANSITION ============ */
+        .transition-box {
+            background: linear-gradient(135deg, #EFF6FF, var(--bleu-clair));
+            border-radius: 12px;
+            padding: 16px 22px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #1E40AF;
+            border-left: 5px solid var(--bleu);
+            font-style: italic;
         }
-        
-        .alert ul li {
-            padding: 10px 0;
-            padding-left: 35px;
-            position: relative;
-            font-size: 1.05em;
+
+        /* ============================================================
+           QCM — STYLES COMPLETS
+        ============================================================ */
+
+        /* --- Étape connexion --- */
+        #qcm-login {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
         }
-        
-        .alert ul li:before {
-            content: "⚠️";
-            position: absolute;
-            left: 0;
-            font-size: 1.3em;
+
+        .login-intro {
+            background: #F1F5F9;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #475569;
+            border-left: 4px solid #0F172A;
         }
-        
-        .astuce {
-            background: linear-gradient(135deg, #fef9c3 0%, #fef08a 100%);
-            border-left: 5px solid #eab308;
-            padding: 20px 25px;
-            margin: 30px 0;
+
+        .login-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gris);
+        }
+
+        .form-group select,
+        .form-group input {
+            padding: 10px 14px;
+            border: 2px solid var(--bordure);
             border-radius: 10px;
-            font-size: 1.1em;
-            box-shadow: 0 3px 15px rgba(234, 179, 8, 0.2);
+            font-size: 14px;
+            color: var(--texte);
+            background: white;
+            transition: border-color 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
         }
-        
-        .astuce strong {
-            color: #854d0e;
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #0F172A;
         }
-        
-        .footer {
-            text-align: center;
-            padding: 40px;
-            background: var(--fond-clair);
-            color: #64748b;
-            font-size: 0.9em;
-        }
-        
-        .footer a {
-            color: var(--bleu-principal);
-            text-decoration: none;
-        }
-        
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .print-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--bleu-principal);
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0F172A, #1E293B);
             color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
             border: none;
-            font-size: 1em;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,23,42,0.3); }
+
+        .login-error {
+            background: #FFF1F2;
+            border: 1px solid #FDA4AF;
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #9F1239;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 12px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- QCM principal --- */
+        #qcm-main { display: none; }
+
+        .qcm-header-bar {
+            background: linear-gradient(135deg, #0F172A, #1E293B);
+            border-radius: 14px;
+            padding: 20px 24px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .qcm-eleve-info { font-size: 14px; }
+        .qcm-eleve-info strong { font-size: 16px; display: block; margin-bottom: 2px; }
+
+        .qcm-progress-wrap { text-align: right; }
+        .qcm-progress-label { font-size: 12px; opacity: 0.8; margin-bottom: 6px; }
+
+        .progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #22D3EE;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        /* --- Questions --- */
+        .question-block {
+            background: var(--fond);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border: 2px solid var(--bordure);
+            transition: border-color 0.2s;
+        }
+
+        .question-block:hover { border-color: #CBD5E1; }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #0F172A;
+            color: white;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--texte);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .options-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+        .option-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid var(--bordure);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .option-label:hover {
+            border-color: #0F172A;
+            background: #F8FAFC;
+        }
+
+        .option-label input[type="radio"] { display: none; }
+
+        .option-label.selected {
+            border-color: #0F172A;
+            background: #F1F5F9;
+            font-weight: 600;
+        }
+
+        .option-bullet {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--bordure);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+            margin-top: 1px;
+        }
+
+        .option-label.selected .option-bullet {
+            border-color: #0F172A;
+            background: #0F172A;
+        }
+
+        .option-label.selected .option-bullet::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .option-letter {
+            font-weight: 700;
+            color: var(--gris);
+            font-size: 12px;
+            min-width: 18px;
+        }
+
+        /* --- Bouton soumettre --- */
+        .qcm-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--bordure);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .qcm-warning {
+            font-size: 12px;
+            color: var(--gris);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-submit {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #16A34A, #15803D);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(22,163,74,0.4); }
+        .btn-submit:disabled { background: #94A3B8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* --- Résultats --- */
+        #qcm-results { display: none; }
+
+        .results-header {
+            text-align: center;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .results-header.excellent { background: linear-gradient(135deg, #DCFCE7, #BBF7D0); }
+        .results-header.bien      { background: linear-gradient(135deg, #DBEAFE, #BFDBFE); }
+        .results-header.moyen     { background: linear-gradient(135deg, #FEF9C3, #FDE68A); }
+        .results-header.insuffisant { background: linear-gradient(135deg, #FEE2E2, #FECACA); }
+
+        .results-score {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .results-header.excellent   .results-score { color: #15803D; }
+        .results-header.bien        .results-score { color: #1D4ED8; }
+        .results-header.moyen       .results-score { color: #92400E; }
+        .results-header.insuffisant .results-score { color: #DC2626; }
+
+        .results-mention {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .results-sub { font-size: 14px; color: var(--gris); }
+
+        .results-detail { margin-top: 20px; }
+
+        .result-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .result-item.correct   { background: #F0FDF4; border-left: 4px solid var(--vert); }
+        .result-item.incorrect { background: #FFF1F2; border-left: 4px solid #F43F5E; }
+
+        .result-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+        .result-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+        .result-text span   { color: var(--gris); font-size: 12px; }
+
+        .results-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn-retry {
+            padding: 12px 24px;
+            background: var(--fond);
+            border: 2px solid var(--bordure);
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(37, 99, 235, 0.4);
-            transition: all 0.3s ease;
-            z-index: 1000;
+            color: var(--texte);
+            transition: all 0.2s;
         }
-        
-        .print-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.6);
+
+        .btn-retry:hover { border-color: #0F172A; background: white; }
+
+        /* --- Envoi Google Sheets --- */
+        .sending-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
         }
-        
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-            .container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-            .print-button {
-                display: none;
-            }
-            .seance {
-                page-break-before: always;
-            }
+
+        .sending-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 320px;
         }
-        
+
+        .sending-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--bordure);
+            border-top-color: var(--bleu);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .sending-box h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+        .sending-box p  { font-size: 13px; color: var(--gris); }
+
+        /* ============ FOOTER ============ */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--gris);
+            font-size: 12px;
+        }
+
+        .back-top {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            background: var(--bleu);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 46px; height: 46px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.4);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .back-top:hover { transform: translateY(-3px); }
+
+        /* ============ RESPONSIVE ============ */
         @media (max-width: 768px) {
-            .cover h1 {
-                font-size: 2em;
-            }
-            .cover h2 {
-                font-size: 1.5em;
-            }
-            .method-3c {
-                grid-template-columns: 1fr;
-            }
-            table {
-                font-size: 0.8em;
-            }
-            table th, table td {
-                padding: 10px 8px;
-            }
-            .content {
-                padding: 20px;
-            }
-            .print-button {
-                bottom: 15px;
-                right: 15px;
-                padding: 12px 20px;
-            }
+            nav { padding: 0 16px; }
+            .nav-links { display: none; }
+            main { padding: 0 12px; margin-top: 70px; }
+            .section-body { padding: 20px; }
+            .section-header { padding: 20px; }
+            .info-grid, .trois-c-grid, .def-grid, .vigilance-grid,
+            .login-form-grid { grid-template-columns: 1fr; }
+            .seance-table { font-size: 11px; }
+            .seance-table thead th,
+            .seance-table tbody td { padding: 10px; }
+            .progress-bar { width: 120px; }
+            .qcm-header-bar { flex-direction: column; gap: 12px; text-align: center; }
+            .qcm-progress-wrap { text-align: center; }
+        }
+
+        /* ============ IMPRESSION ============ */
+        @media print {
+            nav, .back-top, #seance3-qcm { display: none; }
+            body { background: white; font-size: 11px; }
+            main { margin: 0; padding: 0; max-width: 100%; }
+            section { box-shadow: none; border-radius: 0; margin-bottom: 0; page-break-after: always; }
+            .section-body { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-<button class="print-button" onclick="window.print()">🖨️ Imprimer / PDF</button>
-
-<div class="container">
-    <!-- PAGE COUVERTURE -->
-    <div class="cover">
-        <h1>🤖 SÉQUENCE PÉDAGOGIQUE</h1>
-        <h2>L'Intelligence Artificielle et ses biais</h2>
-        <div class="meta">
-            <p><strong>Niveau :</strong> 3ème (adaptation SEGPA incluse)</p>
-            <p><strong>Durée :</strong> 3 séances de 50 minutes</p>
-        </div>
-    </div>
-
-    <div class="content">
-        <!-- INFORMATIONS GÉNÉRALES -->
-        <div class="info-grid">
-            <div class="info-box">
-                <h3><span>🎯</span> Objectifs pédagogiques</h3>
-                <ul>
-                    <li>Comprendre le fonctionnement d'une IA générative</li>
-                    <li>Maîtriser la méthode des 3C pour rédiger de bons prompts</li>
-                    <li>Identifier les biais et stéréotypes dans les réponses de l'IA</li>
-                    <li>Développer un regard critique et responsable</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h3><span>💻</span> Matériel nécessaire</h3>
-                <ul>
-                    <li>Ordinateurs avec accès Internet et IA</li>
-                    <li>Vidéo-projecteur</li>
-                    <li>Fiches élèves (imprimées ou numériques)</li>
-                    <li>Diaporama de support</li>
-                </ul>
-            </div>
-
-            <div class="info-box">
-                <h3><span>📚</span> Compétences (CRCN / EMI)</h3>
-                <ul>
-                    <li>S'insérer dans le monde numérique</li>
-                    <li>Produire, traiter, exploiter des données</li>
-                    <li>Développer un esprit critique (EMI)</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- MÉTHODE DES 3C -->
-        <h2 class="section-title">La Méthode des 3C</h2>
-        <p style="text-align: center; margin-bottom: 40px; font-size: 1.2em; color: #64748b;">Pour rédiger d'excellents prompts</p>
-
-        <div class="method-3c">
-            <div class="method-card clair">
-                <h3><span class="icon">💡</span> CLAIR</h3>
-                <ul>
-                    <li>✓ Sois <strong>précis</strong> et va droit au but</li>
-                    <li>✓ Utilise des <strong>mots simples</strong></li>
-                    <li>✓ Évite les <strong>fautes d'orthographe</strong></li>
-                    <li>✓ Pose une question <strong>claire</strong></li>
-                </ul>
-                <div class="example">
-                    <strong>Exemple :</strong><br>
-                    ❌ « Parle-moi de l'histoire »<br>
-                    ✅ « Résume en 5 points les causes de la Première Guerre mondiale. »
-                </div>
-            </div>
-
-            <div class="method-card contextualise">
-                <h3><span class="icon">🎭</span> CONTEXTUALISÉ</h3>
-                <ul>
-                    <li>✓ Donne un <strong>rôle</strong> à l'IA</li>
-                    <li>✓ Précise le <strong>format</strong> souhaité</li>
-                    <li>✓ Ajoute des <strong>exemples</strong> concrets</li>
-                    <li>✓ Définis le <strong>public cible</strong></li>
-                </ul>
-                <div class="example">
-                    <strong>Exemple :</strong><br>
-                    « Tu es un professeur de français pour des élèves de 3ème. Explique la règle du participe passé avec "avoir" sous forme de tableau avec 5 exemples. »
-                </div>
-            </div>
-
-            <div class="method-card neutre">
-                <h3><span class="icon">⚖️</span> CORRECT / NEUTRE</h3>
-                <ul>
-                    <li>✓ Utilise un <strong>langage neutre</strong></li>
-                    <li>✓ Évite d'<strong>orienter</strong> la réponse</li>
-                    <li>✓ Reste <strong>objectif</strong> et factuel</li>
-                    <li>✓ Pose des questions <strong>ouvertes</strong></li>
-                </ul>
-                <div class="example">
-                    <strong>Exemple :</strong><br>
-                    ❌ « Pourquoi les filles sont moins douées en maths ? »<br>
-                    ✅ « Quels sont les arguments pour et contre l'utilisation des réseaux sociaux chez les adolescents ? »
-                </div>
-            </div>
-        </div>
-
-        <div class="astuce">
-            <strong>💡 ASTUCE :</strong> Plus ton prompt respecte les 3C, meilleure sera la réponse de l'IA !
-        </div>
-
-        <!-- SÉANCE 1 -->
-        <div class="seance">
-            <div class="seance-header seance1">
-                <h2>SÉANCE 1 • Découverte et prise en main de l'IA</h2>
-                <p>⏱️ 50 minutes • Objectif : Comprendre ce qu'est une IA générative et apprendre à interagir avec elle</p>
-            </div>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">Activité</th>
-                            <th style="width: 10%;">Durée</th>
-                            <th style="width: 30%;">Déroulé (Enseignant)</th>
-                            <th style="width: 25%;">Vigilance / Corrigé</th>
-                            <th style="width: 20%;">Différenciation SEGPA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="activite-name">💬 Introduction</span></td>
-                            <td><span class="duree">5 min</span></td>
-                            <td>
-                                • Projection du diaporama<br>
-                                • Brainstorming : « C'est quoi une IA ? »<br>
-                                • Noter les mots-clés au tableau
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Réponses attendues :</strong>
-                                    • Robots, films<br>
-                                    • Assistants vocaux (Siri, Alexa)<br>
-                                    • ChatGPT, jeux vidéo
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Interroger en priorité les élèves en difficulté pour les valoriser
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">💻 Prise en main libre</span></td>
-                            <td><span class="duree">15 min</span></td>
-                            <td>
-                                • Consigne : « Connectez-vous à l'IA et posez des questions libres »<br>
-                                • Travail en binôme :<br>
-                                &nbsp;&nbsp;- Pilote (tape)<br>
-                                &nbsp;&nbsp;- Analyste (propose)
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>⚠️ Vigilance :</strong>
-                                    • Rappeler les règles (pas de données personnelles)<br>
-                                    • Circuler pour débloquer les problèmes<br>
-                                    • Observer la nature des prompts
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    <strong>Liste de 4 prompts de départ :</strong>
-                                    • « Raconte une blague sur les profs »<br>
-                                    • « Invente une histoire de chat roi »
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">✍️ La méthode des 3C</span></td>
-                            <td><span class="duree">15 min</span></td>
-                            <td>
-                                • Explication de la méthode des 3C<br>
-                                • Activité : réécrire un prompt en appliquant les 3C<br>
-                                • Comparer les réponses
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Exemple :</strong><br>
-                                    « C'est quoi la 2GM ? »<br>
-                                    → « Explique les causes de la Seconde Guerre mondiale comme si j'étais un élève de 3ème, en 3 paragraphes. »<br><br>
-                                    <strong>Point clé :</strong> La qualité de la réponse dépend de la qualité du prompt
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    <strong>Prompt à trous :</strong><br>
-                                    « Tu es un ___. Explique ___, en ___ points pour un public de ___. »
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">📝 Synthèse</span></td>
-                            <td><span class="duree">5 min</span></td>
-                            <td>
-                                • « Qu'avez-vous appris sur comment parler à une IA ? »<br>
-                                • Noter les mots : <em>prompt</em>, <em>précis</em>, <em>contexte</em>
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Clôture :</strong><br>
-                                    La prochaine fois, on verra que l'IA peut faire des erreurs et avoir des préjugés
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Demander un seul mot pour résumer la séance
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- SÉANCE 2 -->
-        <div class="seance">
-            <div class="seance-header seance2">
-                <h2>SÉANCE 2 • À la chasse aux biais !</h2>
-                <p>🔍 50 minutes • Objectif : Identifier les stéréotypes et les biais dans les réponses de l'IA</p>
-            </div>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">Activité</th>
-                            <th style="width: 10%;">Durée</th>
-                            <th style="width: 30%;">Déroulé (Enseignant)</th>
-                            <th style="width: 25%;">Vigilance / Corrigé</th>
-                            <th style="width: 20%;">Différenciation SEGPA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="activite-name">🔄 Rappel & Intro</span></td>
-                            <td><span class="duree">5 min</span></td>
-                            <td>
-                                • Rappel rapide des 3C<br>
-                                • Annoncer le thème : les "bugs" de l'IA
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Accroche :</strong><br>
-                                    « Est-ce que l'IA est toujours juste et neutre ? »
-                                </div>
-                            </td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">🔬 Le test du scientifique</span></td>
-                            <td><span class="duree">15 min</span></td>
-                            <td>
-                                • Consigne : « Tapez le prompt : "Décris-moi un scientifique au travail" ou "Dessine-moi..." »<br>
-                                • Analyse avec la grille
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Biais attendus :</strong><br>
-                                    • Homme, blanc, âgé<br>
-                                    • Lunettes, blouse blanche<br>
-                                    • Laboratoire, éprouvettes<br><br>
-                                    <strong>Discussion :</strong><br>
-                                    Pourquoi ? L'IA est entraînée sur des textes qui contiennent déjà ce stéréotype
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    <strong>Grille simplifiée :</strong><br>
-                                    Questions fermées :<br>
-                                    • Homme ou femme ?<br>
-                                    • Jeune ou vieux ?<br>
-                                    • Quelle couleur de peau ?
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">🎯 Chasse aux biais</span></td>
-                            <td><span class="duree">20 min</span></td>
-                            <td>
-                                • En binômes : choisir un métier (infirmier, PDG, mécanicien...)<br>
-                                • Appliquer la même méthode<br>
-                                • Remplir la fiche
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Biais attendus :</strong><br>
-                                    • Infirmier/ère → femme<br>
-                                    • PDG/Mécanicien → homme<br>
-                                    • Famille → Papa, Maman, 2 enfants, chien<br><br>
-                                    <strong>Votre rôle :</strong><br>
-                                    Circuler et aider à nommer les biais (sexisme, racisme, âgisme)
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Un seul métier par binôme<br>
-                                    Donner des exemples de biais à chercher
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">📋 Trace écrite</span></td>
-                            <td><span class="duree">10 min</span></td>
-                            <td>
-                                • Projeter la synthèse<br>
-                                • Les élèves la recopient ou la collent<br>
-                                • <strong>Définitions :</strong> IA Générative, Prompt, Biais
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    S'assurer que tout le monde a la trace écrite
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Trace écrite imprimée avec des trous à compléter
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- SÉANCE 3 -->
-        <div class="seance">
-            <div class="seance-header seance3">
-                <h2>SÉANCE 3 • Devenir un "Prompt-Checker"</h2>
-                <p>✅ 50 minutes • Objectif : Appliquer les compétences pour créer et évaluer un contenu de qualité</p>
-            </div>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 15%;">Activité</th>
-                            <th style="width: 10%;">Durée</th>
-                            <th style="width: 30%;">Déroulé (Enseignant)</th>
-                            <th style="width: 25%;">Vigilance / Corrigé</th>
-                            <th style="width: 20%;">Différenciation SEGPA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span class="activite-name">🎯 Mission du jour</span></td>
-                            <td><span class="duree">5 min</span></td>
-                            <td>
-                                • Présenter l'objectif final :<br>
-                                Créer la "meilleure réponse possible" sur le harcèlement scolaire<br>
-                                • Évaluation entre pairs
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Rappel des enjeux :</strong><br>
-                                    « Aujourd'hui, vous allez corriger l'IA ! »
-                                </div>
-                            </td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">👥 Projet en binôme</span></td>
-                            <td><span class="duree">20 min</span></td>
-                            <td>
-                                • Consigne : Produire un texte informatif et neutre sur le harcèlement scolaire, destiné à des élèves de 6ème<br>
-                                • Améliorer le prompt jusqu'à obtenir un résultat satisfaisant
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Votre rôle :</strong><br>
-                                    Insister sur la re-formulation<br>
-                                    • « Ne parle pas que des victimes, parle aussi des témoins »<br>
-                                    • « Demande des exemples concrets »<br>
-                                    • « Utilise un langage simple »<br><br>
-                                    Le but : résultat final après 3-4 prompts
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    <strong>Prompt de départ structuré :</strong><br>
-                                    « Tu es un conseiller d'éducation. Écris 3 conseils pour un élève de 6ème qui est témoin de harcèlement. Utilise des phrases courtes. »
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">🔄 Évaluation par les pairs</span></td>
-                            <td><span class="duree">15 min</span></td>
-                            <td>
-                                • Les binômes échangent leur production<br>
-                                • Évaluation avec la grille :<br>
-                                &nbsp;&nbsp;- Le texte est-il clair ?<br>
-                                &nbsp;&nbsp;- Est-il complet ?<br>
-                                &nbsp;&nbsp;- Contient-il des stéréotypes ?<br>
-                                &nbsp;&nbsp;- Le langage est-il adapté ?
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Discussion finale :</strong><br>
-                                    « Qu'est-ce qui fait un bon texte ? Qu'avez-vous dû corriger dans les réponses de l'IA ? »
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Évaluation à l'oral avec l'enseignant comme médiateur<br>
-                                    « Lis le texte. Est-ce que tu as tout compris ? »
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span class="activite-name">🎮 Quiz final</span></td>
-                            <td><span class="duree">10 min</span></td>
-                            <td>
-                                • Quiz interactif (Kahoot, Quizizz ou formulaire ENT)
-                            </td>
-                            <td>
-                                <div class="vigilance">
-                                    <strong>Questions QCM :</strong><br>
-                                    • Qu'est-ce qu'un prompt ?<br>
-                                    • Un biais de l'IA est...<br>
-                                    • La méthode des 3C signifie...<br>
-                                    • Pour corriger un biais, je dois...
-                                </div>
-                            </td>
-                            <td>
-                                <div class="segpa">
-                                    Le format QCM est déjà une différenciation<br>
-                                    Lecture à voix haute des questions
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- POINTS DE VIGILANCE -->
-        <div class="alert">
-            <h3>⚠️ POINTS DE VIGILANCE GÉNÉRAUX</h3>
-            <ul>
-                <li>Ne jamais transmettre de <strong>données personnelles</strong> à l'IA</li>
-                <li>L'IA peut <strong>reproduire des stéréotypes</strong> présents sur internet</li>
-                <li>Toujours <strong>vérifier les informations</strong> données par l'IA</li>
-                <li>Valoriser les <strong>reformulations successives</strong></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-        <p>Séquence pédagogique • 2024</p>
-        <p>Document créé pour l'éducation aux médias et à l'information (EMI)</p>
+<!-- ============ OVERLAY ENVOI ============ -->
+<div class="sending-overlay" id="sendingOverlay">
+    <div class="sending-box">
+        <div class="sending-spinner"></div>
+        <h3>Envoi en cours…</h3>
+        <p>Tes résultats sont enregistrés dans le registre de la classe.</p>
     </div>
 </div>
 
+<!-- ============ NAVIGATION ============ -->
+<nav>
+    <div class="nav-logo">🤖 Fiche Enseignant – IA & Biais</div>
+    <ul class="nav-links">
+        <li><a href="#infos">Infos</a></li>
+        <li><a href="#3c">Méthode 3C</a></li>
+        <li><a href="#seance1">Séance 1</a></li>
+        <li><a href="#seance2">Séance 2</a></li>
+        <li><a href="#seance3">Séance 3</a></li>
+        <li><a href="#seance3-qcm">🎮 QCM</a></li>
+    </ul>
+    <button class="nav-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+</nav>
+
+<main>
+
+    <!-- ===== SECTION 1 : INFOS ===== -->
+    <section id="infos">
+        <div class="section-header header-cover">
+            <div class="icon-big">🤖</div>
+            <div>
+                <h2>Fiche Enseignant — L'IA et ses biais</h2>
+                <p>Séquence pédagogique complète · Niveau 3ème · Adaptation SEGPA incluse</p>
+            </div>
+        </div>
+        <div class="section-body">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📋 Informations générales</h3>
+                    <ul>
+                        <li><strong>Public :</strong> Classe de 3ème (SEGPA incluse)</li>
+                        <li><strong>Durée :</strong> 3 séances × 50 minutes</li>
+                        <li><strong>Matières :</strong> EMI / Numérique / CNS</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>📦 Matériel nécessaire</h3>
+                    <ul>
+                        <li>💻 Ordinateurs + IA (ChatGPT, Copilot, Gemini…)</li>
+                        <li>📽️ Vidéo-projecteur</li>
+                        <li>📄 Fiches élèves (papier ou ENT)</li>
+                        <li>📊 Diaporama de support</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Objectifs pédagogiques</h3>
+                    <ul>
+                        <li>Comprendre le fonctionnement d'une IA générative</li>
+                        <li>Maîtriser la méthode des 3C</li>
+                        <li>Identifier les biais et stéréotypes</li>
+                        <li>Développer un regard critique et responsable</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🏫 Compétences travaillées</h3>
+                    <ul>
+                        <li>CRCN : S'insérer dans le monde numérique</li>
+                        <li>CRCN : Produire et exploiter des données</li>
+                        <li>EMI : Développer un esprit critique</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sub-title">🗓️ Vue d'ensemble de la séquence</div>
+            <div class="seance-table-wrapper">
+                <table class="overview-table">
+                    <thead>
+                        <tr>
+                            <th>Séance</th>
+                            <th>Titre</th>
+                            <th>Objectif principal</th>
+                            <th>Activité phare</th>
+                            <th>Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge-seance badge-s1">🕒 Séance 1</span></td>
+                            <td><strong>Découverte de l'IA</strong></td>
+                            <td>Comprendre et interagir avec une IA</td>
+                            <td>Prise en main libre + Méthode des 3C</td>
+                            <td>50 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-seance badge-s2">🔍 Séance 2</span></td>
+                            <td><strong>À la chasse aux biais !</strong></td>
+                            <td>Identifier les stéréotypes de l'IA</td>
+                            <td>Test du scientifique + Chasse aux biais</td>
+                            <td>50 min</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge-seance badge-s3">✅ Séance 3</span></td>
+                            <td><strong>Devenir un Prompt-Checker</strong></td>
+                            <td>Créer et évaluer un contenu de qualité</td>
+                            <td>Projet en binôme + QCM final</td>
+                            <td>50 min</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 2 : MÉTHODE 3C ===== -->
+    <section id="3c">
+        <div class="section-header header-3c">
+            <div class="icon-big">💡</div>
+            <div>
+                <h2>La Méthode des 3C</h2>
+                <p>À afficher et projeter en classe — Pour rédiger d'excellents prompts</p>
+            </div>
+        </div>
+        <div class="section-body">
+            <div class="trois-c-grid">
+                <div class="c-card clair">
+                    <div class="c-icon">💡</div>
+                    <h3>CLAIR</h3>
+                    <ul>
+                        <li>Sois précis et concis</li>
+                        <li>Utilise des mots simples</li>
+                        <li>Évite les fautes d'orthographe</li>
+                        <li>Va droit au but</li>
+                    </ul>
+                    <div class="exemple-box">
+                        <div class="ex-label">Exemple</div>
+                        <span class="ex-bad">❌ "Parle-moi de l'histoire"</span>
+                        <span class="ex-good">✅ "Résume en 5 points les causes de la 2GM"</span>
+                    </div>
+                </div>
+                <div class="c-card contextualise">
+                    <div class="c-icon">🎭</div>
+                    <h3>CONTEXTUALISÉ</h3>
+                    <ul>
+                        <li>Donne un rôle à l'IA</li>
+                        <li>Précise le format souhaité</li>
+                        <li>Ajoute des exemples</li>
+                        <li>Indique le public cible</li>
+                    </ul>
+                    <div class="exemple-box">
+                        <div class="ex-label">Exemple</div>
+                        <span class="ex-good">✅ "Tu es un prof de 3ème. Explique la 2GM en 3 paragraphes clairs."</span>
+                    </div>
+                </div>
+                <div class="c-card correct">
+                    <div class="c-icon">⚖️</div>
+                    <h3>CORRECT / NEUTRE</h3>
+                    <ul>
+                        <li>Utilise un langage neutre</li>
+                        <li>Évite d'orienter la réponse</li>
+                        <li>Reste objectif et factuel</li>
+                        <li>Pose des questions ouvertes</li>
+                    </ul>
+                    <div class="exemple-box">
+                        <div class="ex-label">Exemple</div>
+                        <span class="ex-bad">❌ "Pourquoi les filles sont moins douées ?"</span>
+                        <span class="ex-good">✅ "Existe-t-il des différences de résultats en maths ? Explique objectivement."</span>
+                    </div>
+                </div>
+            </div>
+            <div class="astuce-box">
+                ⭐ ASTUCE : Plus ton prompt respecte les 3C, meilleure sera la réponse de l'IA !
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 3 : SÉANCE 1 ===== -->
+    <section id="seance1">
+        <div class="section-header header-s1">
+            <div class="icon-big">🕒</div>
+            <div>
+                <h2>Séance 1 — Découverte et prise en main de l'IA</h2>
+                <p>Durée : 50 minutes</p>
+            </div>
+        </div>
+        <div class="section-body">
+            <div class="objectif-banner s1">
+                🎯 <strong>Objectif :</strong> Comprendre ce qu'est une IA générative et apprendre à interagir avec elle.
+            </div>
+            <div class="seance-table-wrapper">
+                <table class="seance-table s1">
+                    <thead>
+                        <tr>
+                            <th style="width:14%">Activité</th>
+                            <th style="width:7%">Durée</th>
+                            <th style="width:31%">Déroulé pour l'enseignant</th>
+                            <th style="width:23%">⚠️ Vigilance / Corrigé</th>
+                            <th style="width:25%">🟡 Différenciation SEGPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Introduction 🎤</td>
+                            <td>5 min</td>
+                            <td>Projection du diaporama + brainstorming : <em>« C'est quoi une IA ? »</em><br>Noter les mots-clés au tableau.</td>
+                            <td class="cell-vigilance"><strong>Réponses attendues :</strong> robots, films, assistants vocaux, ChatGPT, jeux vidéo</td>
+                            <td class="cell-segpa">Interroger en priorité les élèves en difficulté pour les valoriser</td>
+                        </tr>
+                        <tr>
+                            <td>2. Prise en main libre 💻</td>
+                            <td>15 min</td>
+                            <td>Connexion en binôme. Rôles : <strong>Pilote</strong> (tape) / <strong>Analyste</strong> (propose). Questions libres.</td>
+                            <td class="cell-vigilance">⚠️ Pas de données personnelles. Circuler pour aider techniquement.</td>
+                            <td class="cell-segpa">Fournir une liste de 4 prompts amusants. Ex : <em>« Raconte une blague sur les profs »</em></td>
+                        </tr>
+                        <tr>
+                            <td>3. Méthode des 3C ✍️</td>
+                            <td>15 min</td>
+                            <td>Explication des 3C. Réécriture d'un prompt. Comparaison avant/après.</td>
+                            <td class="cell-vigilance"><strong>Point clé :</strong> La qualité de la réponse dépend de la qualité de la question.</td>
+                            <td class="cell-segpa">Prompt à trous : <em>« Tu es un ___. Explique ___ en ___ points pour ___. »</em></td>
+                        </tr>
+                        <tr>
+                            <td>4. Synthèse 📝</td>
+                            <td>5 min</td>
+                            <td>Retour collectif sur les mots-clés : <strong>prompt / précis / contexte</strong>.</td>
+                            <td class="cell-vigilance"><em>« La prochaine fois, on verra que l'IA peut avoir des préjugés. »</em></td>
+                            <td class="cell-segpa">Demander un seul mot pour résumer la séance</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="transition-box">
+                💬 <strong>Transition :</strong> « Même avec un bon prompt, l'IA peut faire des erreurs et avoir des préjugés. C'est ce qu'on va découvrir la prochaine fois ! »
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 4 : SÉANCE 2 ===== -->
+    <section id="seance2">
+        <div class="section-header header-s2">
+            <div class="icon-big">🔍</div>
+            <div>
+                <h2>Séance 2 — À la chasse aux biais !</h2>
+                <p>Durée : 50 minutes</p>
+            </div>
+        </div>
+        <div class="section-body">
+            <div class="objectif-banner s2">
+                🎯 <strong>Objectif :</strong> Identifier les stéréotypes et les biais dans les réponses de l'IA.
+            </div>
+            <div class="seance-table-wrapper">
+                <table class="seance-table s2">
+                    <thead>
+                        <tr>
+                            <th style="width:14%">Activité</th>
+                            <th style="width:7%">Durée</th>
+                            <th style="width:31%">Déroulé pour l'enseignant</th>
+                            <th style="width:23%">⚠️ Vigilance / Corrigé</th>
+                            <th style="width:25%">🟡 Différenciation SEGPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Rappel & Intro 🔄</td>
+                            <td>5 min</td>
+                            <td>Rappel des 3C. Annonce du thème : les « bugs » de l'IA.</td>
+                            <td class="cell-vigilance"><strong>Accroche :</strong> <em>« L'IA est-elle toujours juste et neutre ? »</em></td>
+                            <td class="cell-segpa">—</td>
+                        </tr>
+                        <tr>
+                            <td>2. Test du scientifique 🔬</td>
+                            <td>15 min</td>
+                            <td>Prompt : <em>« Décris-moi un scientifique au travail »</em>. Analyse collective avec la grille.</td>
+                            <td class="cell-vigilance"><strong>Biais attendus :</strong> Homme, blanc, âgé, blouse blanche, lunettes.</td>
+                            <td class="cell-segpa">Grille simplifiée : <em>« Homme ou femme ? »</em> / <em>« Jeune ou vieux ? »</em></td>
+                        </tr>
+                        <tr>
+                            <td>3. Chasse aux biais 👥</td>
+                            <td>20 min</td>
+                            <td>Binômes choisissent un métier et testent des prompts. Remplissent la fiche.</td>
+                            <td class="cell-vigilance"><strong>Biais fréquents :</strong> Infirmier → femme / PDG → homme / Famille → stéréotype occidental.</td>
+                            <td class="cell-segpa">Un seul métier attribué par binôme. Exemples de biais fournis.</td>
+                        </tr>
+                        <tr>
+                            <td>4. Trace écrite 📝</td>
+                            <td>10 min</td>
+                            <td>Projection de la synthèse. Recopie dans le cahier.</td>
+                            <td class="cell-vigilance">S'assurer que tout le monde a la trace écrite.</td>
+                            <td class="cell-segpa">Trace écrite imprimée avec trous à compléter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-title">📚 Définitions à retenir</div>
+            <div class="def-grid">
+                <div class="def-card ia">
+                    <div class="def-icon">🤖</div>
+                    <h4>IA Générative</h4>
+                    <p>IA capable de créer du contenu : texte, image, son…</p>
+                </div>
+                <div class="def-card prompt">
+                    <div class="def-icon">✍️</div>
+                    <h4>Prompt</h4>
+                    <p>Instruction donnée à l'IA pour obtenir une réponse précise.</p>
+                </div>
+                <div class="def-card biais">
+                    <div class="def-icon">⚠️</div>
+                    <h4>Biais</h4>
+                    <p>Stéréotype présent dans les réponses de l'IA, hérité de ses données d'entraînement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 5 : SÉANCE 3 ===== -->
+    <section id="seance3">
+        <div class="section-header header-s3">
+            <div class="icon-big">✅</div>
+            <div>
+                <h2>Séance 3 — Devenir un « Prompt-Checker »</h2>
+                <p>Durée : 50 minutes</p>
+            </div>
+        </div>
+        <div class="section-body">
+            <div class="objectif-banner s3">
+                🎯 <strong>Objectif :</strong> Appliquer les compétences acquises pour créer un contenu de qualité et évaluer celui des autres.
+            </div>
+            <div class="seance-table-wrapper">
+                <table class="seance-table s3">
+                    <thead>
+                        <tr>
+                            <th style="width:14%">Activité</th>
+                            <th style="width:7%">Durée</th>
+                            <th style="width:31%">Déroulé pour l'enseignant</th>
+                            <th style="width:23%">⚠️ Vigilance / Corrigé</th>
+                            <th style="width:25%">🟡 Différenciation SEGPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Mission du jour 🎯</td>
+                            <td>5 min</td>
+                            <td>Présentation du défi : créer le meilleur texte possible sur le harcèlement scolaire.</td>
+                            <td class="cell-vigilance"><em>« Aujourd'hui, vous allez corriger l'IA ! »</em></td>
+                            <td class="cell-segpa">—</td>
+                        </tr>
+                        <tr>
+                            <td>2. Projet en binôme 👥</td>
+                            <td>20 min</td>
+                            <td>Améliorer un prompt en 3 à 4 essais successifs.</td>
+                            <td class="cell-vigilance">Insister sur la reformulation progressive.</td>
+                            <td class="cell-segpa">Prompt structuré fourni : <em>« Tu es un conseiller d'éducation… »</em></td>
+                        </tr>
+                        <tr>
+                            <td>3. Évaluation par les pairs ⭐</td>
+                            <td>15 min</td>
+                            <td>Échange des productions + évaluation avec la grille des 3C.</td>
+                            <td class="cell-vigilance">Vérifier : clarté, neutralité, pertinence.</td>
+                            <td class="cell-segpa">Évaluation à l'oral avec l'enseignant médiateur.</td>
+                        </tr>
+                        <tr>
+                            <td>4. QCM final 🎮</td>
+                            <td>10 min</td>
+                            <td>Les élèves se connectent ci-dessous avec leur identifiant et répondent au QCM. Les résultats sont envoyés automatiquement.</td>
+                            <td class="cell-vigilance">Vérifier que chaque élève est bien connecté avec son identifiant. Un seul envoi possible par élève.</td>
+                            <td class="cell-segpa">Lecture des questions à voix haute si besoin. Le format QCM est déjà une différenciation.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sub-title">⚠️ Points de vigilance généraux</div>
+            <div class="vigilance-grid">
+                <div class="vigilance-item danger">⚠️ Ne jamais transmettre de données personnelles à l'IA</div>
+                <div class="vigilance-item danger">⚠️ L'IA reproduit les stéréotypes présents sur internet</div>
+                <div class="vigilance-item ok">✅ Valoriser les reformulations successives des élèves</div>
+                <div class="vigilance-item ok">✅ Toujours vérifier les informations données par l'IA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SECTION 6 : QCM ===== -->
+    <section id="seance3-qcm">
+        <div class="section-header header-qcm">
+            <div class="icon-big">🎮</div>
+            <div>
+                <h2>QCM d'évaluation finale</h2>
+                <p>10 questions · Connecte-toi avec ton identifiant pour commencer</p>
+            </div>
+        </div>
+        <div class="section-body">
+
+            <!-- ÉTAPE 1 : CONNEXION -->
+            <div id="qcm-login">
+                <div class="login-intro">
+                    🔐 <strong>Identifie-toi avant de commencer.</strong> Sélectionne ton nom dans la liste et entre le mot de passe fourni par ton professeur. Tu ne pourras soumettre le QCM qu'une seule fois.
+                </div>
+                <div class="login-form-grid">
+                    <div class="form-group">
+                        <label>👤 Ton prénom</label>
+                        <select id="select-prenom">
+                            <option value="">— Sélectionne ton prénom —</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>👤 Ton nom</label>
+                        <select id="select-nom">
+                            <option value="">— Sélectionne ton nom —</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🏫 Ta classe</label>
+                        <select id="select-classe">
+                            <option value="">— Sélectionne ta classe —</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>🔑 Mot de passe</label>
+                        <input type="password" id="input-mdp" placeholder="Entre le mot de passe…" autocomplete="off">
+                    </div>
+                </div>
+                <button class="btn-login" onclick="verifierConnexion()">
+                    🚀 Commencer le QCM
+                </button>
+                <div class="login-error" id="login-error">
+                    ❌ <span id="login-error-msg">Identifiant ou mot de passe incorrect.</span>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 2 : QCM -->
+            <div id="qcm-main">
+                <div class="qcm-header-bar">
+                    <div class="qcm-eleve-info">
+                        <strong id="display-eleve">—</strong>
+                        <span id="display-classe">—</span>
+                    </div>
+                    <div class="qcm-progress-wrap">
+                        <div class="qcm-progress-label" id="progress-label">Question 0 / 10</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="questions-container"></div>
+
+                <div class="qcm-footer">
+                    <div class="qcm-warning">⚠️ Vérifie toutes tes réponses avant de valider — un seul envoi possible.</div>
+                    <button class="btn-submit" id="btn-submit" onclick="soumettreQCM()" disabled>
+                        ✅ Valider mon QCM
+                    </button>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 3 : RÉSULTATS -->
+            <div id="qcm-results"></div>
+
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Fiche Enseignant — L'Intelligence Artificielle et ses biais — Niveau 3ème · EMI / Numérique</p>
+</footer>
+
+<a href="#" class="back-top" title="Retour en haut">↑</a>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
 <script>
-    // Smooth scroll pour les ancres
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+
+// ================================================================
+// ⚙️ CONFIGURATION — À MODIFIER PAR L'ENSEIGNANT
+// ================================================================
+
+const CONFIG = {
+
+    // 🔗 URL de ton Google Apps Script (voir procédure ci-dessous)
+    GOOGLE_SCRIPT_URL: "https://script.google.com/macros/s/REMPLACE_PAR_TON_URL/exec",
+
+    // 🔑 Mot de passe unique pour la session QCM
+    // Change-le avant chaque évaluation !
+    MOT_DE_PASSE: "IA2024",
+
+    // 🔗 URL de ton Google Sheet Annuaire élèves (pour charger la liste)
+    // Format CSV publié : Fichier > Partager > Publier sur le web > CSV
+    SHEET_ANNUAIRE_CSV: "https://docs.google.com/spreadsheets/d/REMPLACE_PAR_TON_ID/export?format=csv&sheet=Annuaire",
+};
+
+// ================================================================
+// 📝 LES 10 QUESTIONS DU QCM
+// ================================================================
+
+const QUESTIONS = [
+    {
+        id: 1,
+        texte: "Qu'est-ce que le « Machine Learning » ?",
+        options: [
+            "Quand une machine devient consciente.",
+            "Quand on programme une machine avec des règles très strictes.",
+            "Quand une machine apprend à partir de nombreux exemples."
+        ],
+        correct: 2  // index 0,1,2 → ici la réponse c)
+    },
+    {
+        id: 2,
+        texte: "Laquelle de ces applications n'est PAS un bon exemple d'IA dans notre quotidien ?",
+        options: [
+            "Le correcteur orthographique de base.",
+            "La recommandation de vidéos sur YouTube.",
+            "Le GPS Waze qui recalcule l'itinéraire."
+        ],
+        correct: 0
+    },
+    {
+        id: 3,
+        texte: "ChatGPT et Midjourney sont des exemples de :",
+        options: [
+            "IA Forte",
+            "IA Générative",
+            "IA qui n'existe pas encore"
+        ],
+        correct: 1
+    },
+    {
+        id: 4,
+        texte: "Un bon prompt doit être :",
+        options: [
+            "Le plus court possible.",
+            "Vague pour laisser l'IA être créative.",
+            "Précis, contextuel et donner un objectif clair."
+        ],
+        correct: 2
+    },
+    {
+        id: 5,
+        texte: "Qu'est-ce qu'une « hallucination » de l'IA ?",
+        options: [
+            "Quand l'IA crée une image effrayante.",
+            "Quand l'IA invente une information qui semble vraie mais est fausse.",
+            "Quand l'IA refuse de répondre à une question."
+        ],
+        correct: 1
+    },
+    {
+        id: 6,
+        texte: "Copier-coller une réponse de ChatGPT pour un devoir est considéré comme :",
+        options: [
+            "Une utilisation intelligente de l'IA.",
+            "Du plagiat.",
+            "Une bonne méthode pour gagner du temps."
+        ],
+        correct: 1
+    },
+    {
+        id: 7,
+        texte: "Un « biais » dans une IA, c'est quand :",
+        options: [
+            "L'IA se trompe dans un calcul.",
+            "L'IA reproduit des stéréotypes présents dans ses données d'entraînement.",
+            "L'IA met trop de temps à répondre."
+        ],
+        correct: 1
+    },
+    {
+        id: 8,
+        texte: "Quelle est la meilleure attitude face à une réponse d'une IA ?",
+        options: [
+            "La croire sur parole, car les ordinateurs ne mentent pas.",
+            "La vérifier en croisant avec d'autres sources fiables.",
+            "La rejeter systématiquement car elle est forcément fausse."
+        ],
+        correct: 1
+    },
+    {
+        id: 9,
+        texte: "L'IA « Forte » (comme dans les films) est aujourd'hui :",
+        options: [
+            "Très courante et accessible à tous.",
+            "En cours de développement et sera disponible l'an prochain.",
+            "Un concept de science-fiction qui n'existe pas encore."
+        ],
+        correct: 2
+    },
+    {
+        id: 10,
+        texte: "Le rôle de l'IA à l'école est d'être :",
+        options: [
+            "Un remplaçant pour faire les devoirs difficiles.",
+            "Un assistant pour aider à comprendre, brainstormer et gagner du temps.",
+            "Un outil de divertissement uniquement."
+        ],
+        correct: 1
+    }
+];
+
+// ================================================================
+// 🗃️ DONNÉES ÉLÈVES (chargées depuis Google Sheets)
+// ================================================================
+
+let ELEVES = [];
+let eleveConnecte = null;
+
+// Chargement de la liste des élèves depuis le Google Sheet Annuaire
+async function chargerEleves() {
+    try {
+        const resp = await fetch(CONFIG.SHEET_ANNUAIRE_CSV);
+        const text = await resp.text();
+        const lignes = text.trim().split("\n").slice(1); // ignore l'en-tête
+
+        const prenoms  = new Set();
+        const noms     = new Set();
+        const classes  = new Set();
+
+        lignes.forEach(ligne => {
+            const cols = ligne.split(",");
+            if (cols.length >= 3) {
+                const prenom = cols[0].trim().replace(/"/g,"");
+                const nom    = cols[1].trim().replace(/"/g,"");
+                const classe = cols[2].trim().replace(/"/g,"");
+                if (prenom) prenoms.add(prenom);
+                if (nom)    noms.add(nom);
+                if (classe) classes.add(classe);
+                ELEVES.push({ prenom, nom, classe });
+            }
         });
+
+        remplirSelect("select-prenom", [...prenoms].sort());
+        remplirSelect("select-nom",    [...noms].sort());
+        remplirSelect("select-classe", [...classes].sort());
+
+    } catch(e) {
+        // Mode fallback : liste manuelle si le sheet n'est pas accessible
+        console.warn("Impossible de charger l'annuaire. Mode manuel activé.");
+        remplirSelect("select-prenom", ["Alice","Bob","Camille","Dylan","Emma","Farid","Giulia","Hugo","Inès","Jules"]);
+        remplirSelect("select-nom",    ["DUPONT","MARTIN","BERNARD","THOMAS","PETIT","ROBERT","RICHARD","DURAND","LEROY","MOREAU"]);
+        remplirSelect("select-classe", ["3ème A","3ème B","3ème C","SEGPA"]);
+    }
+}
+
+function remplirSelect(id, valeurs) {
+    const sel = document.getElementById(id);
+    valeurs.forEach(v => {
+        const opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = v;
+        sel.appendChild(opt);
     });
+}
+
+// ================================================================
+// 🔐 VÉRIFICATION CONNEXION
+// ================================================================
+
+function verifierConnexion() {
+    const prenom = document.getElementById("select-prenom").value;
+    const nom    = document.getElementById("select-nom").value;
+    const classe = document.getElementById("select-classe").value;
+    const mdp    = document.getElementById("input-mdp").value;
+
+    const errDiv = document.getElementById("login-error");
+    const errMsg = document.getElementById("login-error-msg");
+
+    // Validations
+    if (!prenom || !nom || !classe) {
+        errMsg.textContent = "Merci de sélectionner ton prénom, ton nom et ta classe.";
+        errDiv.style.display = "flex";
+        return;
+    }
+
+    if (mdp !== CONFIG.MOT_DE_PASSE) {
+        errMsg.textContent = "Mot de passe incorrect. Demande-le à ton professeur.";
+        errDiv.style.display = "flex";
+        return;
+    }
+
+    // Vérification que l'élève existe dans l'annuaire (si chargé)
+    if (ELEVES.length > 0) {
+        const trouve = ELEVES.find(e =>
+            e.prenom.toLowerCase() === prenom.toLowerCase() &&
+            e.nom.toLowerCase()    === nom.toLowerCase() &&
+            e.classe.toLowerCase() === classe.toLowerCase()
+        );
+        if (!trouve) {
+            errMsg.textContent = "Cette combinaison prénom / nom / classe n'existe pas dans l'annuaire.";
+            errDiv.style.display = "flex";
+            return;
+        }
+    }
+
+    errDiv.style.display = "none";
+    eleveConnecte = { prenom, nom, classe };
+    lancerQCM();
+}
+
+// ================================================================
+// 🎮 LANCEMENT DU QCM
+// ================================================================
+
+function lancerQCM() {
+    document.getElementById("qcm-login").style.display = "none";
+    document.getElementById("qcm-main").style.display  = "block";
+
+    document.getElementById("display-eleve").textContent = `${eleveConnecte.prenom} ${eleveConnecte.nom}`;
+    document.getElementById("display-classe").textContent = eleveConnecte.classe;
+
+    const container = document.getElementById("questions-container");
+    container.innerHTML = "";
+
+    QUESTIONS.forEach((q, idx) => {
+        const letters = ["a", "b", "c"];
+        const bloc = document.createElement("div");
+        bloc.className = "question-block";
+        bloc.innerHTML = `
+            <div class="question-number">${q.id}</div>
+            <div class="question-text">${q.texte}</div>
+            <ul class="options-list">
+                ${q.options.map((opt, i) => `
+                    <li>
+                        <label class="option-label" id="label-${q.id}-${i}" onclick="selectionnerOption(${q.id}, ${i})">
+                            <input type="radio" name="q${q.id}" value="${i}">
+                            <span class="option-bullet"></span>
+                            <span class="option-letter">${letters[i]})</span>
+                            <span>${opt}</span>
+                        </label>
+                    </li>
+                `).join("")}
+            </ul>
+        `;
+        container.appendChild(bloc);
+    });
+
+    mettreAJourProgression();
+}
+
+// ================================================================
+// ✅ SÉLECTION D'UNE OPTION
+// ================================================================
+
+function selectionnerOption(questionId, optionIndex) {
+    const q = QUESTIONS.find(q => q.id === questionId);
+    q.options.forEach((_, i) => {
+        const lbl = document.getElementById(`label-${questionId}-${i}`);
+        if (lbl) lbl.classList.remove("selected");
+    });
+    const lbl = document.getElementById(`label-${questionId}-${optionIndex}`);
+    if (lbl) lbl.classList.add("selected");
+
+    // Met à jour le radio (pour la logique)
+    const radio = document.querySelector(`input[name="q${questionId}"][value="${optionIndex}"]`);
+    if (radio) radio.checked = true;
+
+    mettreAJourProgression();
+}
+
+function mettreAJourProgression() {
+    let repondues = 0;
+    QUESTIONS.forEach(q => {
+        const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
+        if (checked) repondues++;
+    });
+
+    const pct = Math.round((repondues / QUESTIONS.length) * 100);
+    document.getElementById("progress-fill").style.width  = pct + "%";
+    document.getElementById("progress-label").textContent = `Question ${repondues} / ${QUESTIONS.length} répondue(s)`;
+
+    const btn = document.getElementById("btn-submit");
+    btn.disabled = (repondues < QUESTIONS.length);
+}
+
+// ================================================================
+// 📤 SOUMISSION DU QCM
+// ================================================================
+
+async function soumettreQCM() {
+    // Collecte des réponses
+    const reponses = [];
+    let score = 0;
+
+    QUESTIONS.forEach(q => {
+        const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
+        const rep = checked ? parseInt(checked.value) : -1;
+        const correct = (rep === q.correct);
+        if (correct) score++;
+        reponses.push({ question: q.id, reponse: rep, correct });
+    });
+
+    const note    = score;
+    const total   = QUESTIONS.length;
+    const pct     = Math.round((score / total) * 100);
+    const dateheure = new Date().toLocaleString("fr-FR");
+
+    // Afficher l'overlay
+    document.getElementById("sendingOverlay").style.display = "flex";
+    document.getElementById("btn-submit").disabled = true;
+
+    // Préparer les données pour Google Sheets
+    const payload = {
+        prenom  : eleveConnecte.prenom,
+        nom     : eleveConnecte.nom,
+        classe  : eleveConnecte.classe,
+        date    : dateheure,
+        note    : note,
+        total   : total,
+        pourcentage: pct,
+        reponses: reponses.map(r => `Q${r.question}:${["a","b","c"][r.reponse] || "?"}`).join(" | "),
+        details : reponses.map(r => r.correct ? "✓" : "✗").join("")
+    };
+
+    try {
+        await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+            method : "POST",
+            mode   : "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body   : JSON.stringify(payload)
+        });
+    } catch(e) {
+        console.warn("Envoi échoué :", e);
+    }
+
+    // Masquer l'overlay
+    document.getElementById("sendingOverlay").style.display = "none";
+
+    // Afficher les résultats
+    afficherResultats(score, total, reponses);
+}
+
+// ================================================================
+// 🏆 AFFICHAGE DES RÉSULTATS
+// ================================================================
+
+function afficherResultats(score, total, reponses) {
+    document.getElementById("qcm-main").style.display = "none";
+
+    const pct = Math.round((score / total) * 100);
+    let mention, classe, emoji;
+
+    if (pct >= 80)      { mention = "Excellent !";     classe = "excellent";   emoji = "🏆"; }
+    else if (pct >= 60) { mention = "Bien !";          classe = "bien";        emoji = "👍"; }
+    else if (pct >= 40) { mention = "Peut mieux faire"; classe = "moyen";      emoji = "💪"; }
+    else                { mention = "À retravailler";  classe = "insuffisant"; emoji = "📚"; }
+
+    const letters = ["a", "b", "c"];
+
+    const html = `
+        <div class="results-header ${classe}">
+            <div style="font-size:56px;margin-bottom:10px">${emoji}</div>
+            <div class="results-score">${score} / ${total}</div>
+            <div class="results-mention">${mention}</div>
+            <div class="results-sub">${pct}% de bonnes réponses · ${eleveConnecte.prenom} ${eleveConnecte.nom} · ${eleveConnecte.classe}</div>
+        </div>
+
+        <div class="results-detail">
+            ${reponses.map((r, idx) => {
+                const q = QUESTIONS[idx];
+                return `
+                    <div class="result-item ${r.correct ? "correct" : "incorrect"}">
+                        <div class="result-icon">${r.correct ? "✅" : "❌"}</div>
+                        <div class="result-text">
+                            <strong>Q${q.id} — ${q.texte}</strong>
+                            <span>
+                                Ta réponse : ${r.reponse >= 0 ? letters[r.reponse] + ") " + q.options[r.reponse] : "Non répondue"}
+                                ${!r.correct ? ` · Bonne réponse : ${letters[q.correct]}) ${q.options[q.correct]}` : ""}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join("")}
+        </div>
+
+        <div class="results-actions">
+            <div style="background:#F0FDF4;border:2px solid #16A34A;border-radius:12px;padding:14px 20px;font-size:13px;color:#14532D;flex:1;">
+                ✅ <strong>Tes résultats ont été enregistrés</strong> dans le registre de la classe. Tu peux fermer cette fenêtre.
+            </div>
+        </div>
+    `;
+
+    const resultsDiv = document.getElementById("qcm-results");
+    resultsDiv.innerHTML = html;
+    resultsDiv.style.display = "block";
+    resultsDiv.scrollIntoView({ behavior: "smooth" });
+}
+
+// ================================================================
+// 🚀 INITIALISATION
+// ================================================================
+chargerEleves();
+
 </script>
 
 </body>
 </html>
+```
+
+---
+
+## 📋 PROCÉDURE COMPLÈTE PAS À PAS
+
+---
+
+### **PARTIE 1 — Préparer le Google Sheet Annuaire**
+
+```
+ÉTAPE 1 — Structure du Google Sheet "Annuaire"
+────────────────────────────────────────────────
+Crée un Google Sheet avec ces colonnes exactes
+en ligne 1 (en-tête) :
+
+  A          B        C
+  Prenom  |  Nom   |  Classe
+
+Exemples de données :
+  Alice   | DUPONT  | 3ème A
+  Bob     | MARTIN  | 3ème A
+  Camille | BERNARD | 3ème B
+  Dylan   | THOMAS  | SEGPA
+
+⚠️ Pas d'accents sur "Prenom"
+⚠️ Respecte exactement ces noms de colonnes
+
+ÉTAPE 2 — Publier le Sheet en CSV
+────────────────────────────────────────────────
+1. Ouvre ton Google Sheet Annuaire
+2. Clique sur Fichier
+3. → Partager et exporter
+4. → Publier sur le web
+5. Sélectionne la feuille "Annuaire"
+6. Format : Valeurs séparées par des virgules (.csv)
+7. Clique sur Publier
+8. Copie le lien généré
+
+ÉTAPE 3 — Colle le lien dans le fichier HTML
+────────────────────────────────────────────────
+Dans le fichier HTML, trouve cette ligne :
+
+  SHEET_ANNUAIRE_CSV: "https://docs.google.com/..."
+
+Remplace l'URL par le lien copié à l'étape 2.
+```
+
+---
+
+### **PARTIE 2 — Préparer le Google Sheet Résultats**
+
+```
+ÉTAPE 1 — Structure du Google Sheet "Résultats"
+────────────────────────────────────────────────
+Crée un Google Sheet avec ces colonnes en ligne 1 :
+
+  A       B     C       D       E     F      G           H         I
+  Prenom | Nom | Classe | Date | Note | Total | Pourcentage | Réponses | Détails
+
+ÉTAPE 2 — Créer le Google Apps Script
+────────────────────────────────────────────────
+1. Ouvre ton Google Sheet "Résultats"
+2. Clique sur Extensions
+3. → Apps Script
+4. Efface tout le code existant
+5. Colle ce code :
+
+────────────────────────────────────────────────
+function doPost(e) {
+  try {
+    const sheet = SpreadsheetApp
+      .getActiveSpreadsheet()
+      .getActiveSheet();
+
+    const data = JSON.parse(e.postData.contents);
+
+    sheet.appendRow([
+      data.prenom,
+      data.nom,
+      data.classe,
+      data.date,
+      data.note,
+      data.total,
+      data.pourcentage + "%",
+      data.reponses,
+      data.details
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "OK" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: "ERROR", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput("Script actif ✅")
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+────────────────────────────────────────────────
+
+6. Clique sur la disquette 💾 pour sauvegarder
+7. Nomme le projet : "QCM_IA_Resultats"
+
+ÉTAPE 3 — Déployer le script
+────────────────────────────────────────────────
+1. Clique sur "Déployer" (en haut à droite)
+2. → Nouveau déploiement
+3. Type : Application Web
+4. Description : QCM IA
+5. Exécuter en tant que : Moi
+6. Qui peut accéder : Tout le monde
+7. Clique sur "Déployer"
+8. Autorise les permissions demandées
+9. Copie l'URL du déploiement
+
+⚠️ L'URL ressemble à :
+https://script.google.com/macros/s/ABC.../exec
+
+ÉTAPE 4 — Colle l'URL dans le fichier HTML
+────────────────────────────────────────────────
+Dans le fichier HTML, trouve :
+
+  GOOGLE_SCRIPT_URL: "https://script.google.com/..."
+
+Remplace par ton URL copiée à l'étape 3.
+```
+
+---
+
+### **PARTIE 3 — Configurer le mot de passe**
+
+```
+Dans le fichier HTML, trouve :
+
+  MOT_DE_PASSE: "IA2024",
+
+Change "IA2024" par le mot de passe
+que tu donneras oralement aux élèves
+le jour de l'évaluation.
+
+💡 Change-le à chaque nouvelle session !
+```
+
+---
+
+### **PARTIE 4 — Mettre en ligne sur GitHub**
+
+```
+ÉTAPE 1 — Crée le dépôt GitHub
+────────────────────────────────────────────────
+1. Va sur github.com
+2. Connecte-toi à ton compte
+3. Clique sur "New repository"
+4. Nom : fiche-ia-biais
+5. Coche "Public"
+6. Clique "Create repository"
+
+ÉTAPE 2 — Ajoute le fichier HTML
+────────────────────────────────────────────────
+1. Clique "Add file" → "Create new file"
+2. Nomme-le : index.html
+3. Colle tout le code HTML
+4. Clique "Commit changes"
+
+ÉTAPE 3 — Active GitHub Pages
+────────────────────────────────────────────────
+1. Va dans "Settings" de ton dépôt
+2. Menu gauche : clique "Pages"
+3. Source : "Deploy from a branch"
+4. Branch : main → / (root)
+5. Clique "Save"
+6. Attends 2 minutes
+
+Ton site est disponible à :
+https://[ton-pseudo].github.io/fiche-ia-biais
+```
+
+---
+
+### **PARTIE 5 — Le jour de l'évaluation**
+
+```
+AVANT LA SÉANCE (5 min)
+────────────────────────────────────────────────
+□ Vérifie que l'annuaire est bien rempli
+□ Ouvre le Google Sheet Résultats
+  (tu verras les notes arriver en direct)
+□ Note le mot de passe à communiquer oralement
+
+PENDANT LA SÉANCE (10 min)
+────────────────────────────────────────────────
+□ Projette l'URL du site au tableau
+□ Donne le mot de passe oralement
+□ Les élèves se connectent et répondent
+□ Surveille les résultats qui arrivent
+  dans ton Google Sheet en temps réel
+
+APRÈS LA SÉANCE
+────────────────────────────────────────────────
+□ Ouvre le Google Sheet Résultats
+□ Toutes les notes sont déjà là !
+□ Tu peux trier par classe ou par nom
+□ Exporte en PDF ou imprime si besoin
+```
+
+---
+
+### **PARTIE 6 — Exploiter les résultats**
+
+```
+Dans ton Google Sheet Résultats,
+ajoute ces formules pour automatiser :
+
+COLONNE J — Mention automatique :
+=SI(G2>=80%,"Excellent",SI(G2>=60%,"Bien",
+SI(G2>=40%,"Moyen","Insuffisant")))
+
+COLONNE K — Note sur 20 :
+=E2*2
+
+MOYENNE DE CLASSE (cellule libre) :
+=MOYENNE(E2:E100)
+
+MEILLEURE NOTE :
+=MAX(E2:E100)
+
+NOMBRE D'ÉLÈVES AYANT FAIT LE QCM :
+=NBVAL(A2:A100)
+
+💡 TU PEUX AUSSI :
+→ Trier par colonne C (classe)
+   pour voir chaque groupe séparément
+→ Ajouter une mise en forme conditionnelle
+   pour colorier les notes
+   (rouge < 5, orange 5-7, vert > 7)
+→ Créer un graphique automatique
+   avec les résultats de la classe
+```
+
+---
+
+**Veux-tu que je te prépare aussi :**
+
+- **A.** La fiche élève en HTML (version simplifiée) ?
+- **B.** Le Google Sheet Résultats déjà formaté avec les formules ? *(je te donne le code Apps Script complet)*
+- **C.** Une version du QCM avec minuterie visible pour les élèves ?
